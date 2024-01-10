@@ -1,1 +1,1 @@
-# python-c++-klases-rekonstruktors
+# Python C/C++ klases rekonstruktors
