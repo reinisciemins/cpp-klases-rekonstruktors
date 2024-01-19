@@ -5,7 +5,7 @@
 
 * Reāllaika programmas **izpildes** un **pielietojuma piemērs** spēlei Counter-Strike: Source **(YouTube video)**:
 
-    [![video_example](https://i.ibb.co/FqCPTrF/thumbnail.png)](https://www.youtube.com/watch?v=VIDEO_ID)
+    [![video_example](https://i.ibb.co/FqCPTrF/thumbnail.png)](https://www.youtube.com/watch?v=ntRcPG-U2Eg)
 
 ## Programmas izpildes piemērs:
 * **.text. IDA 7.3. ģenerētais asamblervalodas** piemērs no spēlētāja klases spēlē **Counter-Strike: Source**:
