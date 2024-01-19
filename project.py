@@ -120,7 +120,7 @@ def main( ):
         file.write( "\n};" )
     else:
         # ja nav nepieciesami mainigie tad iespejams vajadzigs klases izmers
-        class_size = int( input( "-> Ievadiet klases izmēru baitos: "))
+        class_size = int( input( "-> Ievadiet klases izmēru baitos: " ) )
 
         if class_size > 0:
             file.write( "\n\tstd::uint8_t pad_0x0000[" + hex( class_size ) + "];\n};" )
