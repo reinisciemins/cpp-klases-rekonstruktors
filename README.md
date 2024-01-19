@@ -24,6 +24,20 @@
 ## Izmantotās Python bibliotēkas:
 * **OS bibliotēka** - izmantota, lai notīrītu konsoles ekrānu, lai nodrošināt tīru un sakārtotu lietotāja interfeisu. Notīrot konsoli, programma sākas ar tukšu termināli/konsoli, atvieglojot lietotāja mijiedarbību ar programmas datu ievadi un izvadi.
 
+## Programmas satura apraksts:
+
+1. **Importē bibliotēkas:** tiek importēts `os` modulis, lai veiktu mijiedarbību ar operētājsistēmu.
+2. **Definē klasi (`c_element`):** tiek definēta klase ar nosaukumu `c_element`, lai saglabātu C++ klases elementus. Katram elementam ir atribūti, piemēram, datu tips (`type`), mainīgā nosaukums (`name`) un nobīde (`offset`).
+3. **Izveido tukšu sarakstu:** tiek izveidots tukšs saraksts (`class_elements`), lai glabātu objektus, kas ar C++ klases elementiem.
+4. **Definē funkciju (`get_type_size`):** funkcija izmantota, lai noteiktu C++ datu tipu izmēru baitos.
+5. **Definē galveno funkciju (`main`):** mijiedarbojas ar lietotāju, lai dinamiski ģenerētu C++ klasi.
+6. **Notīra konsoles ekrānu:** programma notīra konsoles ekrānu, lai panāktu tīrāku lietotāja saskarni.
+7. **Iegūst ievadi faila nosaukumam, faila izveidei:** lietotājam tiek prasīts ievadīt faila nosaukumu, tam tiek pielikts ".hpp" faila veids, un tas tiek atvērts rakstīšanai.
+8. **Pievieno klases definīciju failam:** prasa lietotājam klases nosaukumu un ieraksta klases definīciju failā, iekļaujot nepieciešamos galvenes failus.
+9. **Pievieno mainīgos klasei:** prasa lietotājam ievadīt klases mainīgo skaitu, un programma iteratīvi iegūst informāciju par katru mainīgo (tips, nosaukums, nobīde).
+10. **Sakārto un ģenerēt klases elementus failā:** sakārto klases elementus pēc nobīdēm un ģenerē atbilstošo klases definīciju failā, nodrošina precīzu izkārtošanu atmiņā, pievienojot aizpildījumus starp klases elementiem.
+11. **Aizver failu un parāda paziņojumu:** fails tiek aizvērts, un tiek rādīts izpildes paziņojums ar izveidoto faila nosaukumu un klases nosaukumu.
+
 ## Papildus piezīmes:
 * **Aizpildījuma**, jeb **"paddinga"** nosaukuma adrese ir heksadecimālajā skaitīšanas sistēmā, un tā norāda elementa adresi sākot no 0 formātā **0xXXXX** (aizpildījums ir klases nezināmie elementi, kas lietotājiem nav nepieciešami, tie ir jāiekļauj, lai saskaņotu klases vai struktūras datu elementus atmiņā).
 * Programmu iespējams uzlabot pievienot atbalstu 64-bitu arhitektūrai un pievienojot opciju ievadīt pašizveidotus datu tipus, kā piemēram **3x4 matriksas** norādot to izmēru baitos, bet tas autora ietvaros pašlaik nav vajadzīgs.
