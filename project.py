@@ -14,7 +14,6 @@ class_elements = []
 def get_type_size( type ):
     # iznem "std::" prefixu no dota stringa lai spetu apstradat abas opcijas, kad lietotajs
     # ievada so prefixu un kad ne
-    # this may strip the given string as a reference, perhaps we need a copy
     if "std::" in type:
         type = type.replace( "std::", "" )
 
@@ -23,15 +22,18 @@ def get_type_size( type ):
         return 4
 
     # 32bitu c/c++ datu tipu izmeri baitos
-    if type == "int8_t" or type == "uint8_t":
+    if type in { "int8_t", "uint8_t" }:
         return 1
-    elif type == "int16_t" or type == "uint16_t":
+    elif type in { "int16_t", "uint16_t" }:
         return 2
-    elif type == "int32_t" or type == "uint32_t" or type == "float":
+    elif type in { "int32_t", "uint32_t", "uintptr_t", "DWORD", "unsigned long", "long", "float" }:
         return 4
-    elif type == "int64_t" or type == "uint64_t":
+    elif type in { "int64_t", "uint64_t", "vec2d_t" }:
         return 8
+    elif type == "vec3d_t":
+        return 12
     
+    # nezinams datu tips
     return -1
 
 def main( ):
@@ -65,7 +67,10 @@ def main( ):
             member_offset = int( input( "\t-> Ievadiet mainīgā " + member_name + " adresi: " ) )
 
             # mainiga informacijas izvade lietotajam
-            print( "\t-> " + member_type + " " + member_name + "\n\t----------------------------------------------" )
+            print( "\t-> " + member_type + " " + member_name )
+
+            if i != member_count - 1:
+                print( "\t----------------------------------------------" )
             
             # pievieno mainiga objektu masivam
             class_elements.append( c_element( member_type, member_name, member_offset ) )
@@ -73,9 +78,10 @@ def main( ):
         # sakarto klases elementus augosa seciba pec to adresem
         class_elements.sort( key=lambda x: x.offset )
 
-        # saglaba ieprieks apskatito elementu un adresu summu
-        next_element_address = 0
-        previous_element = None
+        # saglaba ieprieks apskatito elementu objektu
+        previous_element = c_element( "", "", 0 )
+        pad_location_value = 0
+        pad_size_value = 0
 
         # cikls kas iet cauri sakartotajiem klases elementiem secigi
         for i in range( len( class_elements ) ):
@@ -87,9 +93,28 @@ def main( ):
                     file.write( "\n\tstd::uint8_t pad_0x0000[" + hex( element.offset ) + "];" )
 
                 file.write( "\n\t" + element.type + " " + element.name + ";" )
+            else:
+                # parbauda vai nav nepieciesams aizpildijums (padding)
+                if get_type_size( element.type ) != element.offset - previous_element.offset:
+                    # parveido tuksas vietas izmeru ta lai vienmer butu 4 skaitli
+                    pad_location = hex( pad_location_value )
+                    pad_location = pad_location.replace( "0x", "" )
+                    pad_location = pad_location.zfill( 4 )
+                    pad_location = pad_location.upper( )
 
-            # saglaba nakama elementa adresi kas ir ieprieksejo elementu tipu izmeri baitos + ieprieks pievienota adrese
-            next_element_address += element.offset + get_type_size( element.type )
+                    pad_size_value = element.offset - pad_location_value
+
+                    # tikai pirma izmers ir element.offset, nakamajiem janem starpiba
+                    file.write( "\n\tstd::uint8_t pad_0x" + pad_location + "[" + hex( pad_size_value ) + "];" )
+                    file.write( "\n\t" + element.type + " " + element.name + ";" )
+
+                    # saglaba iepriekseja aizpildijuma lielumu nakamajai lokacijas adresei
+                    pad_location_value += pad_size_value
+                else:
+                    file.write( "\n\t" + element.type + " " + element.name + ";" )
+
+            # saglaba nakama elementa adresi kas ir ieprieksejo elementu tipu izmeri baitos
+            pad_location_value += get_type_size( element.type )
             previous_element = element
 
         file.write( "\n};" )
