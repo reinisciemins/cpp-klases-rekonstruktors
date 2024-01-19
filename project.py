@@ -22,7 +22,7 @@ def get_type_size( type ):
         return 4
 
     # 32bitu c/c++ datu tipu izmeri baitos
-    if type in { "int8_t", "uint8_t" }:
+    if type in { "int8_t", "uint8_t", "bool" }:
         return 1
     elif type in { "int16_t", "uint16_t" }:
         return 2
